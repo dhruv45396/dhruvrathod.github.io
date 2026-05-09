@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dhruv Rathod — Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f5f0;
+      --surface: #ffffff;
+      --ink: #1a1814;
+      --muted: #6b6760;
+      --accent: #c8622a;
+      --accent-light: #f0e6dc;
+      --border: #e4e0d8;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(247,245,240,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted); font-size: 0.85rem;
+      font-weight: 400; letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* LAYOUT */
+    main { padding-top: 60px; }
+    section { padding: clamp(3rem, 7vw, 6rem) clamp(1.5rem, 5vw, 4rem); }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    /* HERO */
+    #hero {
+      min-height: calc(100vh - 60px);
+      display: flex; align-items: center;
+      background: var(--bg);
+    }
+    .hero-inner {
+      max-width: 860px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .hero-name {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 600; line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .hero-name em { color: var(--accent); font-style: italic; }
+    .hero-desc {
+      color: var(--muted); font-size: 1rem; max-width: 480px;
+      margin-bottom: 2rem; line-height: 1.75;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--ink); color: #fff;
+      padding: 0.75rem 1.5rem; border-radius: 6px;
+      text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .hero-cta:hover { background: var(--accent); transform: translateY(-1px); }
+    .hero-cta-ghost {
+      margin-left: 0.75rem;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1.5px solid var(--border); color: var(--muted);
+      padding: 0.75rem 1.5rem; border-radius: 6px;
+      text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .hero-cta-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      min-width: 180px;
+      text-align: center;
+    }
+    .hero-card .num {
+      font-family: 'Lora', serif;
+      font-size: 2.5rem; font-weight: 600;
+      color: var(--ink); line-height: 1;
+    }
+    .hero-card .num span { color: var(--accent); }
+    .hero-card .label { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+    .hero-info {
+      margin-top: 2rem;
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .hero-info-item {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .hero-info-item svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px; background: var(--border);
+      max-width: 860px; margin: 0 auto;
+    }
+
+    /* SECTION HEADING */
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 600; letter-spacing: -0.025em;
+      color: var(--ink); margin-bottom: 2.5rem;
+    }
+
+    /* SKILLS */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;
+    }
+    .skill-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card-title {
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500; margin-bottom: 0.75rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      font-size: 0.78rem; color: var(--ink); font-weight: 400;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 0.2rem 0.55rem; border-radius: 4px;
+    }
+
+    /* PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 1rem; align-items: start;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(200,98,42,0.07);
+    }
+    .project-date {
+      font-size: 0.75rem; color: var(--muted); font-weight: 400;
+      white-space: nowrap; padding-top: 0.2rem;
+    }
+    .project-title {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--ink); margin-bottom: 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .project-stack {
+      font-size: 0.75rem; color: var(--accent);
+      margin-bottom: 0.75rem; font-weight: 500;
+    }
+    .project-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+    .project-desc li { margin-bottom: 0.3rem; margin-left: 1.1rem; }
+
+    /* EDUCATION */
+    #education { background: var(--surface); }
+    .edu-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .edu-degree {
+      font-family: 'Lora', serif;
+      font-size: 1.2rem; font-weight: 600; color: var(--ink); margin-bottom: 0.25rem;
+    }
+    .edu-school { font-size: 0.875rem; color: var(--muted); }
+    .edu-badge {
+      background: var(--accent-light);
+      border: 1px solid #e8c5b0;
+      color: var(--accent);
+      font-size: 0.8rem; font-weight: 600;
+      padding: 0.4rem 0.9rem; border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* CERTIFICATIONS */
+    .cert-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .cert-item {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.1rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .cert-item:hover { border-color: var(--accent); }
+    .cert-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+    }
+    .cert-dot.inprogress { background: #deb760; }
+    .cert-text { flex: 1; }
+    .cert-name { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+    .cert-by { font-size: 0.78rem; color: var(--muted); }
+    .cert-status {
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); font-weight: 500;
+    }
+    .cert-status.inprogress { color: #c4993a; }
+
+    /* EXTRAS */
+    #extras { background: var(--surface); }
+    .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .extra-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.4rem 1.5rem;
+    }
+    .extra-title { font-weight: 500; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; }
+    .extra-org { font-size: 0.75rem; color: var(--accent); font-weight: 500; margin-bottom: 0.5rem; }
+    .extra-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTACT */
+    #contact {
+      background: var(--ink); color: #fff;
+    }
+    #contact .section-label { color: #c8a080; }
+    #contact .section-title { color: #fff; }
+    .contact-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); padding: 1rem 1.25rem;
+      text-decoration: none; color: #ccc;
+      font-size: 0.875rem;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-item:hover { background: rgba(200,98,42,0.2); border-color: var(--accent); color: #fff; }
+    .contact-item svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.3);
+      text-align: center; font-size: 0.75rem;
+      padding: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* FADE IN */
+    .fade-in {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-date { text-align: left; }
+      .extras-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">Dhruv Rathod</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="hero-tag">Frontend / Web Developer</span>
+        <h1 class="hero-name">Dhruv<br><em>Rathod</em></h1>
+        <p class="hero-desc">
+          Second-year B.Tech (CSE AI-ML) student at Adani University, Ahmedabad.
+          I build clean, responsive web experiences with React, REST APIs, and a sharp eye for detail.
+        </p>
+        <div>
+          <a href="#projects" class="hero-cta">View Projects</a>
+          <a href="#contact" class="hero-cta-ghost">Get in Touch</a>
+        </div>
+        <div class="hero-info">
+          <span class="hero-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Ahmedabad, Gujarat
+          </span>
+          <span class="hero-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8L2 7h20l-6-4z"/></svg>
+            dhruvrathod.cse24@adani.uni.ac
+          </span>
+          <span class="hero-info-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v5h-4v-5a2 2 0 00-2-2h-1a2 2 0 00-2 2v5H9v-5a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            linkedin.com/in/dhruvrathod
+          </span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="num">8.8<span>/10</span></div>
+        <div class="label">CGPA</div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+        <div class="num" style="font-size:2rem;">4<span>+</span></div>
+        <div class="label">Live Projects</div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+        <div class="num" style="font-size:2rem;">95<span>+</span></div>
+        <div class="label">Lighthouse Score</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container fade-in">
+      <div class="section-label">What I work with</div>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-card-title">Languages</div>
+          <div class="skill-tags">
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">JavaScript ES6+</span>
+            <span class="skill-tag">Python</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">Frontend</div>
+          <div class="skill-tags">
+            <span class="skill-tag">React.js</span>
+            <span class="skill-tag">Tailwind CSS</span>
+            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">DOM Manipulation</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">API / Data</div>
+          <div class="skill-tags">
+            <span class="skill-tag">REST API</span>
+            <span class="skill-tag">Fetch API</span>
+            <span class="skill-tag">Axios</span>
+            <span class="skill-tag">JSON</span>
+            <span class="skill-tag">async/await</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">GitHub</span>
+            <span class="skill-tag">VS Code</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Vercel</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">Databases</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Firebase</span>
+            <span class="skill-tag">SQL basics</span>
+            <span class="skill-tag">localStorage</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-card-title">Concepts</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Component UI</span>
+            <span class="skill-tag">State Management</span>
+            <span class="skill-tag">Mobile-first</span>
+            <span class="skill-tag">SPA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container fade-in">
+      <div class="section-label">What I've built</div>
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-list">
+
+        <div class="project-card">
+          <div>
+            <div class="project-title">Personal Portfolio Website</div>
+            <div class="project-stack">HTML · CSS · JavaScript · Responsive Design</div>
+            <ul class="project-desc">
+              <li>Fully responsive multi-section portfolio built from scratch with pure HTML, CSS, and JS.</li>
+              <li>Smooth scroll navigation, animated skill bars, and dynamic project cards with GitHub links.</li>
+              <li>CSS Grid & Flexbox layouts — pixel-perfect across mobile, tablet, and desktop.</li>
+              <li>Hosted on GitHub Pages with custom domain; achieved 95+ Google Lighthouse score.</li>
+            </ul>
+          </div>
+          <div class="project-date">Jan 2025</div>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <div class="project-title">Weather Dashboard App</div>
+            <div class="project-stack">React.js · OpenWeatherMap API · CSS Modules</div>
+            <ul class="project-desc">
+              <li>React SPA fetching live weather data via OpenWeatherMap REST API using Axios.</li>
+              <li>City search, 5-day forecast, unit toggle (°C/°F), and graceful error handling.</li>
+              <li>State managed with useState & useEffect; structured into reusable components.</li>
+              <li>Deployed on Vercel with CI/CD from GitHub.</li>
+            </ul>
+          </div>
+          <div class="project-date">Feb 2025</div>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <div class="project-title">E-Commerce Product Listing UI</div>
+            <div class="project-stack">React.js · Tailwind CSS · Fake Store API</div>
+            <ul class="project-desc">
+              <li>Functional product listing page integrating the Fake Store REST API for live data.</li>
+              <li>Category filter, search, sort by price, and add-to-cart with localStorage persistence.</li>
+              <li>React Context API for global cart state — no prop drilling.</li>
+              <li>Skeleton loaders during fetch and toast notifications on cart actions.</li>
+            </ul>
+          </div>
+          <div class="project-date">Mar 2025</div>
+        </div>
+
+        <div class="project-card">
+          <div>
+            <div class="project-title">GitHub Profile Explorer</div>
+            <div class="project-stack">Vanilla JavaScript · GitHub REST API · HTML/CSS</div>
+            <ul class="project-desc">
+              <li>Vanilla JS app querying the GitHub REST API for repos, followers, and profile stats.</li>
+              <li>Debounced search input; paginated repo list with language badges.</li>
+              <li>Graceful rate-limit handling with retry logic using async/await.</li>
+              <li>Card-based responsive UI built from scratch — zero external frameworks.</li>
+            </ul>
+          </div>
+          <div class="project-date">Apr 2025</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="container fade-in">
+      <div class="section-label">Academic background</div>
+      <h2 class="section-title">Education</h2>
+      <div class="edu-card">
+        <div>
+          <div class="edu-degree">B.Tech — CSE (AI-ML)</div>
+          <div class="edu-school">Adani University, Ahmedabad, Gujarat &nbsp;·&nbsp; 2024 – 2028</div>
+        </div>
+        <div>
+          <span class="edu-badge">CGPA 8.8 · Top 15</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="container fade-in">
+      <div class="section-label">Continuous learning</div>
+      <h2 class="section-title">Certifications</h2>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-dot"></div>
+          <div class="cert-text">
+            <div class="cert-name">Modern Web Development</div>
+            <div class="cert-by">CodeWithHarry</div>
+          </div>
+          <span class="cert-status">Completed</span>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot inprogress"></div>
+          <div class="cert-text">
+            <div class="cert-name">Delta Web Development Course</div>
+            <div class="cert-by">Apna College — Advanced JS, React, Node.js, Databases</div>
+          </div>
+          <span class="cert-status inprogress">In Progress</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXTRAS -->
+  <section id="extras">
+    <div class="container fade-in">
+      <div class="section-label">Beyond the code</div>
+      <h2 class="section-title">Activities</h2>
+      <div class="extras-grid">
+        <div class="extra-card">
+          <div class="extra-title">ASPCDC Coding Club</div>
+          <div class="extra-org">Adani University</div>
+          <div class="extra-desc">Participated in inter-college coding contests. Co-organized a web development beginner workshop for junior students.</div>
+        </div>
+        <div class="extra-card">
+          <div class="extra-title">Volunteer — College Tech Fest</div>
+          <div class="extra-org">Frontend & UI/UX Demo Sessions</div>
+          <div class="extra-desc">Coordinated front-end and UI/UX demo sessions. Helped organize 3 technical workshops with 200+ attendees.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" style="background: rgba(255,255,255,0.08)"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container fade-in">
+      <div class="section-label">Let's connect</div>
+      <h2 class="section-title">Get in Touch</h2>
+      <div class="contact-grid">
+        <a href="tel:+918780174522" class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 1.22 2 2 0 014 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+          +91 8780174522
+        </a>
+        <a href="mailto:dhruvrathod.cse24@adani.uni.ac" class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          dhruvrathod.cse24@adani.uni.ac
+        </a>
+        <a href="https://linkedin.com/in/dhruvrathod" target="_blank" class="contact-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v5h-4v-5a2 2 0 00-2-2h-1a2 2 0 00-2 2v5H9v-5a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/dhruvrathod
+        </a>
+        <div class="contact-item" style="pointer-events:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Ahmedabad, Gujarat, India
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Crafted by Dhruv Rathod &nbsp;·&nbsp; Open to internship opportunities
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
